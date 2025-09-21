@@ -4,22 +4,13 @@ import os
 import numpy as np
 import pandas as pd
 
-def safe_image_load(image_path, fallback_text="📊 Image", **kwargs):
-    """Helper function to safely load images with fallback"""
-    try:
-        st.image(image_path, **kwargs)
-        return True
-    except Exception as e:
-        st.info(fallback_text)
-        return False
-
 def home_page():
     st.title("AI Attorney")
     st.markdown("Transforming the Legal Industry with AI")
     st.caption("AI Attorney is a cutting-edge legal technology firm revolutionizing the legal industry with advanced artificial intelligence solutions. We provide clients with efficient, accurate, and cost-effective legal services, powered by state-of-the-art AI algorithms and expert legal insights, ensuring seamless and precise legal support.")
     
-    # Try to load main image with error handling
-    safe_image_load("images/AiLaw.jpeg", "🏛️ AI Attorney - Revolutionizing Legal Services with AI")
+    # Main image
+    st.image("images/AiLaw.jpeg", caption="AI Attorney - Revolutionizing Legal Services with AI")
 
     st.markdown(
     "AI Attorney is at the forefront of revolutionizing the legal industry by harnessing the power of artificial intelligence. "
@@ -44,7 +35,7 @@ def home_page():
     st.header("OBJECTIVE")
     col1, col2 = st.columns(2)
     with col1:
-        safe_image_load("images/law 2.png", "⚖️ Legal Technology Innovation")
+        st.image("images/law 2.png", caption="Legal Technology Innovation")
     with col2:
         st.write("""The objective of this presentation is to demonstrate the groundbreaking 
                 capabilities and significant contributions of Ai Attorney, an advanced AI powered system, in revolutionizing legal research. Through its utilization of 
@@ -108,22 +99,22 @@ def home_page():
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        safe_image_load("images/RamaTulasi.jpg", "👩‍💼 RAMA TULASI")
+        st.image("images/RamaTulasi.jpg", caption="RAMA TULASI")
         st.subheader("RAMA TULASI")
         st.write("`Assistant Professor at VIT-AP University`")
     
     with col2:
-        safe_image_load("images/Bharath.jpg", "👨‍💻 BHARATH KUMAR")
+        st.image("images/Bharath.jpg", caption="BHARATH KUMAR")
         st.subheader("BHARATH KUMAR")
         st.write("`CSE`")
 
     with col3:
-        safe_image_load("images/shailendra.jpg", "👨‍💻 SHAILENDRA")
+        st.image("images/shailendra.jpg", caption="SHAILENDRA")
         st.subheader("SHAILENDRA")
         st.write("`CSE`")
 
     with col1:
-        safe_image_load("images/Sai Ram.jpg", "👨‍💻 SAI RAM")
+        st.image("images/Sai Ram.jpg", caption="SAI RAM")
         st.subheader("SAI RAM")
         st.write("`CSE`")
 
