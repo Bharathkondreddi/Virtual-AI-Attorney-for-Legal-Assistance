@@ -152,6 +152,11 @@ def home_page():
         st.subheader("SAI RAM")
         st.write("`CSE`")
 
+    # with col2:
+    #     st.image(r"C:\Users\hp\Downloads\AI-Attorney-Using-LangChain-main\ask-multiple-pdfs-main\ask-multiple-pdfs-main\images\sreeven.png")
+    #     st.subheader("N")
+    #     st.write("`CSE (Spec. in Artificial Intelligence)`")
+
     st.text(" ")
     st.text(" ")
     st.text(" ")
@@ -166,48 +171,82 @@ def home_page():
 
     st.map(df)
 
+
     st.text(" ")
     st.text(" ")
     st.text(" ")
     st.text(" ")
 
-    # Simple contact form using FormSubmit.co
+
     st.header(":mailbox: Get In Touch With Me!")
     
-    contact_form = """
-    <form action="https://formsubmit.co/bk2982689@gmail.com" method="POST">
-        <input type="hidden" name="_captcha" value="false">
-        <input type="text" name="name" placeholder="Your name" required>
-        <input type="email" name="email" placeholder="Your email" required>
-        <textarea name="message" placeholder="Your message here" required></textarea>
-        <button type="submit">Send</button>
-    </form>
-    """
+    # Professional contact form with multiple contact options
+    with st.form("contact_form"):
+        st.write("Send me a message and I'll get back to you:")
+        name = st.text_input("Your Name", placeholder="Enter your full name")
+        email = st.text_input("Your Email", placeholder="Enter your email address")
+        message = st.text_area("Your Message", placeholder="Enter your message here...", height=150)
+        
+        submitted = st.form_submit_button("Send Message")
+        
+        if submitted:
+            if name and email and message:
+                with st.spinner("Sending your message..."):
+                    result = send_email(name, email, message)
+                    
+                    if result == "success":
+                        st.success("✅ Your message has been sent successfully!")
+                        st.balloons()
+                        st.info("📧 I'll get back to you as soon as possible.")
+                    else:
+                        # Show multiple contact options
+                        st.warning("📧 Please use one of these methods to contact me:")
+                        
+                        # Method 1: Email
+                        import urllib.parse
+                        subject = f"AI Attorney Contact - {name}"
+                        body = f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}"
+                        mailto_link = f"mailto:bk2982689@gmail.com?subject={urllib.parse.quote(subject)}&body={urllib.parse.quote(body)}"
+                        
+                        col1, col2, col3 = st.columns(3)
+                        
+                        with col1:
+                            st.markdown(f'<a href="{mailto_link}" target="_blank" style="background-color: #ff6b6b; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px; display: inline-block; width: 100%; text-align: center;">📧 Email Me</a>', unsafe_allow_html=True)
+                        
+                        with col2:
+                            # WhatsApp
+                            whatsapp_message = f"Hi! I'm {name} ({email}). {message}"
+                            whatsapp_link = f"https://wa.me/919876543210?text={urllib.parse.quote(whatsapp_message)}"
+                            st.markdown(f'<a href="{whatsapp_link}" target="_blank" style="background-color: #25D366; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px; display: inline-block; width: 100%; text-align: center;">📱 WhatsApp</a>', unsafe_allow_html=True)
+                        
+                        with col3:
+                            # LinkedIn or Phone
+                            st.markdown('<div style="background-color: #0077B5; color: white; padding: 10px 15px; border-radius: 5px; text-align: center;">📞 Call Me<br>+91 98765 43210</div>', unsafe_allow_html=True)
+                        
+                        st.write("")
+                        st.info("📋 **Copy this message:**")
+                        st.code(f"To: bk2982689@gmail.com\nSubject: {subject}\n\n{body}")
+            else:
+                st.error("❌ Please fill in all fields!")
     
-    st.markdown(contact_form, unsafe_allow_html=True)
+    # Quick contact info
+    st.write("---")
+    st.subheader("📞 Direct Contact Information")
+    col1, col2 = st.columns(2)
+    with col1:
+        st.info("� **Email:**\nbk2982689@gmail.com")
+    with col2:
+        st.info("📱 **Phone/WhatsApp:**\n+91 98765 43210")
+
     st.write("---")
 
     # Use Local CSS File
     def local_css(file_name):
-        try:
-            # Use relative path for deployment compatibility
-            css_path = "style/style.css"
-            if os.path.exists(css_path):
-                with open(css_path) as f:
-                    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-            else:
-                # Fallback for different path structures
-                fallback_paths = [
-                    "ask-multiple-pdfs-main/style/style.css",
-                    "../style/style.css"
-                ]
-                for path in fallback_paths:
-                    if os.path.exists(path):
-                        with open(path) as f:
-                            st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-                        break
-        except Exception as e:
-            # Ignore CSS errors to prevent app crashes
-            pass
+        with open(file_name) as f:
+            st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
-    local_css("style.css")
+
+    local_css(r"C:\Users\hp\Downloads\AI-Attorney-Using-LangChain-main\ask-multiple-pdfs-main\style\style.css")
+
+
+

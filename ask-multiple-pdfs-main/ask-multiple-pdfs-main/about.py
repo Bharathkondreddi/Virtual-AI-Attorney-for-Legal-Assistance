@@ -2,37 +2,6 @@ import streamlit as st
 import time
 import os
 from pathlib import Path
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-
-def send_email(name, email, message):
-    """Send email using a webhook service"""
-    try:
-        import requests
-        
-        # Using Formspree (free alternative to FormSubmit)
-        formspree_url = "https://formspree.io/f/xpzgvnag"  # You'll need to create this endpoint
-        
-        data = {
-            "name": name,
-            "email": email, 
-            "message": message,
-            "_replyto": email,
-            "_subject": f"New Contact Form Message from {name}",
-        }
-        
-        # Try to send via Formspree
-        response = requests.post(formspree_url, data=data)
-        
-        if response.status_code == 200:
-            return "success"
-        else:
-            return "fallback"
-            
-    except Exception as e:
-        # If requests fail, use fallback
-        return "fallback"
 
 def get_image_path(image_name):
     """Get the correct image path for both local and deployment environments"""
@@ -186,50 +155,18 @@ def about_page():
 
     st.header(":mailbox: Get In Touch With Me!")
     
-    # Professional contact form with real email sending
-    with st.form("contact_form_about"):
-        st.write("Send me a message:")
-        name = st.text_input("Your Name", placeholder="Enter your full name")
-        email = st.text_input("Your Email", placeholder="Enter your email address")
-        message = st.text_area("Your Message", placeholder="Enter your message here...", height=150)
-        
-        submitted = st.form_submit_button("Send Message")
-        
-        if submitted:
-            if name and email and message:
-                with st.spinner("Sending your message..."):
-                    result = send_email(name, email, message)
-                    
-                    if result == "success":
-                        st.success("✅ Your message has been sent successfully!")
-                        st.balloons()
-                        st.info("📧 I'll get back to you as soon as possible.")
-                    elif result == "fallback":
-                        # Fallback to alternative method
-                        import urllib.parse
-                        subject = f"Contact from AI Attorney - {name}"
-                        body = f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}"
-                        mailto_link = f"mailto:bk2982689@gmail.com?subject={urllib.parse.quote(subject)}&body={urllib.parse.quote(body)}"
-                        
-                        st.warning("📧 Please use the button below to send your message:")
-                        st.markdown(f'<a href="{mailto_link}" target="_blank" style="background-color: #ff6b6b; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">📨 Send Email</a>', unsafe_allow_html=True)
-                        
-                        # Also show WhatsApp option
-                        whatsapp_message = f"Hi! I'm {name}. {message}"
-                        whatsapp_link = f"https://wa.me/+919876543210?text={urllib.parse.quote(whatsapp_message)}"
-                        st.markdown(f'<a href="{whatsapp_link}" target="_blank" style="background-color: #25D366; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; margin-left: 10px;">📱 WhatsApp</a>', unsafe_allow_html=True)
-                    else:
-                        st.error("❌ There was an issue sending your message. Please try the alternative methods below:")
-                        
-                        # Alternative contact methods
-                        col1, col2 = st.columns(2)
-                        with col1:
-                            st.info("📧 **Email directly:**\nbk2982689@gmail.com")
-                        with col2:
-                            st.info("📱 **WhatsApp:**\n+91 98765 43210")
-            else:
-                st.error("❌ Please fill in all fields!")
-
+    # Simple FormSubmit.co contact form
+    contact_form = """
+    <form action="https://formsubmit.co/bk2982689@gmail.com" method="POST">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="text" name="name" placeholder="Your name" required>
+        <input type="email" name="email" placeholder="Your email" required>
+        <textarea name="message" placeholder="Your message here" required></textarea>
+        <button type="submit">Send</button>
+    </form>
+    """
+    
+    st.markdown(contact_form, unsafe_allow_html=True)
     st.write("---")
 
     # Use Local CSS File - commented out to avoid path issues on cloud deployment

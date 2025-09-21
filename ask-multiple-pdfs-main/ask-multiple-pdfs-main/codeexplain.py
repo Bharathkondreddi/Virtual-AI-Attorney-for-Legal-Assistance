@@ -1,4 +1,5 @@
 import streamlit as st
+import os
 
 def code_page():
     st.header("About Code Implementation")
@@ -215,39 +216,41 @@ def code_page():
 
     st.header(":mailbox: Get In Touch With Me!")
     
-    # Streamlit-native contact form that works in deployment
-    with st.form("contact_form_code"):
-        st.write("Send me a message:")
-        name = st.text_input("Your Name", placeholder="Enter your full name")
-        email = st.text_input("Your Email", placeholder="Enter your email address")
-        message = st.text_area("Your Message", placeholder="Enter your message here...", height=150)
-        
-        submitted = st.form_submit_button("Send Message")
-        
-        if submitted:
-            if name and email and message:
-                # Create mailto link for email client
-                import urllib.parse
-                subject = f"Contact from AI Attorney - {name}"
-                body = f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}"
-                mailto_link = f"mailto:bk2982689@gmail.com?subject={urllib.parse.quote(subject)}&body={urllib.parse.quote(body)}"
-                
-                st.success("✅ Thank you for your message!")
-                st.info("📧 Click the link below to send your message:")
-                st.markdown(f'<a href="{mailto_link}" target="_blank" style="background-color: #ff6b6b; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">📨 Send Email</a>', unsafe_allow_html=True)
-                
-                # Also show the message for copying
-                st.write("**Or copy this message and send manually:**")
-                st.code(f"To: bk2982689@gmail.com\nSubject: {subject}\n\n{body}")
-            else:
-                st.error("❌ Please fill in all fields!")
-
+    # Simple FormSubmit.co contact form
+    contact_form = """
+    <form action="https://formsubmit.co/bk2982689@gmail.com" method="POST">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="text" name="name" placeholder="Your name" required>
+        <input type="email" name="email" placeholder="Your email" required>
+        <textarea name="message" placeholder="Your message here" required></textarea>
+        <button type="submit">Send</button>
+    </form>
+    """
+    
+    st.markdown(contact_form, unsafe_allow_html=True)
     st.write("---")
 
-    # Use Local CSS File
+    # Use Local CSS File with deployment-compatible path
     def local_css(file_name):
-        with open(file_name) as f:
-            st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+        try:
+            # Use relative path for deployment compatibility
+            css_path = "style/style.css"
+            if os.path.exists(css_path):
+                with open(css_path) as f:
+                    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+            else:
+                # Fallback for different path structures
+                fallback_paths = [
+                    "ask-multiple-pdfs-main/style/style.css",
+                    "../style/style.css"
+                ]
+                for path in fallback_paths:
+                    if os.path.exists(path):
+                        with open(path) as f:
+                            st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+                        break
+        except Exception as e:
+            # Ignore CSS errors to prevent app crashes
+            pass
 
-
-    local_css(r"C:\Users\hp\Downloads\AI-Attorney-Using-LangChain-main\ask-multiple-pdfs-main\style\style.css")
+    local_css("style.css")
