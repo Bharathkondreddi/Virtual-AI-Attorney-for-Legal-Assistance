@@ -2,6 +2,7 @@
 
 An AI-powered legal assistant application built with LangChain and Streamlit that helps users with legal document processing and legal consultation.
 
+<!-- Updated: Force redeploy -->
 ## Features
 - 📄 PDF document processing and analysis
 - 💬 Interactive chat with AI attorney

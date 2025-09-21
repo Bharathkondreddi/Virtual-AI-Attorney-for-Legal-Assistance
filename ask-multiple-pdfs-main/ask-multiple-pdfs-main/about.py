@@ -1,5 +1,22 @@
 import streamlit as st
 import time
+import os
+
+def safe_image_load(image_path, caption="", debug=False):
+    """Helper function to safely load images with debugging info"""
+    if debug:
+        st.write(f"🔍 Attempting to load: {image_path}")
+        st.write(f"📎 Target file exists: {os.path.exists(image_path)}")
+    
+    try:
+        if os.path.exists(image_path):
+            st.image(image_path, caption=caption)
+            if debug:
+                st.success(f"✅ Successfully loaded: {image_path}")
+        else:
+            st.error(f"❌ File not found: {image_path}")
+    except Exception as e:
+        st.error(f"❌ Error loading {image_path}: {str(e)}")
 
 def fade_in_animation(element, duration=0.5):
     st.markdown(
@@ -20,9 +37,13 @@ def fade_in_animation(element, duration=0.5):
 def about_page():
     st.title("About AI Attorney")
     st.subheader("Empowering Legal Excellence Through AI")
+    
+    # Get debug mode from session state or sidebar
+    debug_mode = st.sidebar.checkbox("🔧 Debug Image Loading", value=False, key="about_debug")
+    
     col1, col2 = st.columns(2)
     with col2:
-        st.image("images/ailogo.png", caption="AI Attorney Logo")
+        safe_image_load("images/ailogo.png", "AI Attorney Logo", debug_mode)
     with col1:
         st.text(" ")
         st.text(" ")
@@ -33,13 +54,13 @@ def about_page():
     st.write(" Accuracy: Our AI algorithms deliver unparalleled precision in legal research, analysis, and document review.")
     st.write(" Client-Centric: We prioritize your success, aiming to elevate your practice to new heights while ensuring your clients receive top-notch service.")
     st.write("Join AI Attorney on the journey to redefine legal excellence in the digital age.")
-    st.image("images/about.png", caption="About AI Attorney")
+    safe_image_load("images/about.png", "About AI Attorney", debug_mode)
 
     st.header("Product Features")
     st.markdown("AI Attorney stands as a pioneering force in the legal technology landscape, harnessing the power of Artificial Intelligence (AI) and Natural Language Processing (NLP) techniques to revolutionize legal research. Here are the key features that set AI Attorney apart")
     col1, col2 = st.columns(2)
     with col2:
-        st.image("images/img-1.png", caption="NLP Technology")
+        safe_image_load("images/img-1.png", "NLP Technology", debug_mode)
     with col1:
         st.subheader("Cutting-Edge NLP Technology")
         st.markdown(
