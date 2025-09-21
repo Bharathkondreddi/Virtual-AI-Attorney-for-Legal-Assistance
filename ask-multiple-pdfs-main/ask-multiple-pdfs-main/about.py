@@ -1,6 +1,15 @@
 import streamlit as st
 import time
 
+def safe_image_load(image_path, fallback_text="📋 Content", **kwargs):
+    """Helper function to safely load images with fallback"""
+    try:
+        st.image(image_path, **kwargs)
+        return True
+    except Exception as e:
+        st.info(fallback_text)
+        return False
+
 def fade_in_animation(element, duration=0.5):
     st.markdown(
         f"""
@@ -22,7 +31,7 @@ def about_page():
     st.subheader("Empowering Legal Excellence Through AI")
     col1, col2 = st.columns(2)
     with col2:
-        st.image("images/ailogo.png")
+        safe_image_load("images/ailogo.png", "🤖 AI Attorney Logo")
     with col1:
         st.text(" ")
         st.text(" ")
@@ -33,13 +42,13 @@ def about_page():
     st.write(" Accuracy: Our AI algorithms deliver unparalleled precision in legal research, analysis, and document review.")
     st.write(" Client-Centric: We prioritize your success, aiming to elevate your practice to new heights while ensuring your clients receive top-notch service.")
     st.write("Join AI Attorney on the journey to redefine legal excellence in the digital age.")
-    st.image("images/about.png")
+    safe_image_load("images/about.png", "📈 About AI Attorney")
 
     st.header("Product Features")
     st.markdown("AI Attorney stands as a pioneering force in the legal technology landscape, harnessing the power of Artificial Intelligence (AI) and Natural Language Processing (NLP) techniques to revolutionize legal research. Here are the key features that set AI Attorney apart")
     col1, col2 = st.columns(2)
     with col2:
-        st.image("images/img-1.png")
+        safe_image_load("images/img-1.png", "🔧 NLP Technology")
     with col1:
         st.subheader("Cutting-Edge NLP Technology")
         st.markdown(
