@@ -1,22 +1,40 @@
 import streamlit as st
 import time
 import os
+from pathlib import Path
 
-def safe_image_load(image_path, caption="", debug=False):
-    """Helper function to safely load images with debugging info"""
-    if debug:
-        st.write(f"🔍 Attempting to load: {image_path}")
-        st.write(f"📎 Target file exists: {os.path.exists(image_path)}")
+def get_image_path(image_name):
+    """Get the correct image path for both local and deployment environments"""
+    # Try different possible paths
+    possible_paths = [
+        f"images/{image_name}",  # Relative path
+        f"./images/{image_name}",  # Current directory relative
+        f"{os.getcwd()}/images/{image_name}",  # Absolute from current working directory
+        f"ask-multiple-pdfs-main/ask-multiple-pdfs-main/images/{image_name}",  # Full relative path
+    ]
+    
+    for path in possible_paths:
+        if os.path.exists(path):
+            return path
+    
+    # If no path works, return the standard relative path
+    return f"images/{image_name}"
+
+def safe_image_display(image_name, caption="", width=None):
+    """Safely display images with proper path resolution"""
+    image_path = get_image_path(image_name)
     
     try:
-        if os.path.exists(image_path):
-            st.image(image_path, caption=caption)
-            if debug:
-                st.success(f"✅ Successfully loaded: {image_path}")
+        if width:
+            st.image(image_path, caption=caption, width=width)
         else:
-            st.error(f"❌ File not found: {image_path}")
+            st.image(image_path, caption=caption)
+        return True
     except Exception as e:
-        st.error(f"❌ Error loading {image_path}: {str(e)}")
+        # Fallback: try with different encodings or display error info
+        st.error(f"Could not load image: {image_name}")
+        st.info(f"Path attempted: {image_path}")
+        return False
 
 def fade_in_animation(element, duration=0.5):
     st.markdown(
@@ -38,12 +56,9 @@ def about_page():
     st.title("About AI Attorney")
     st.subheader("Empowering Legal Excellence Through AI")
     
-    # Get debug mode from session state or sidebar
-    debug_mode = st.sidebar.checkbox("🔧 Debug Image Loading", value=False, key="about_debug")
-    
     col1, col2 = st.columns(2)
     with col2:
-        safe_image_load("images/ailogo.png", "AI Attorney Logo", debug_mode)
+        safe_image_display("ailogo.png", "AI Attorney Logo")
     with col1:
         st.text(" ")
         st.text(" ")
@@ -54,13 +69,13 @@ def about_page():
     st.write(" Accuracy: Our AI algorithms deliver unparalleled precision in legal research, analysis, and document review.")
     st.write(" Client-Centric: We prioritize your success, aiming to elevate your practice to new heights while ensuring your clients receive top-notch service.")
     st.write("Join AI Attorney on the journey to redefine legal excellence in the digital age.")
-    safe_image_load("images/about.png", "About AI Attorney", debug_mode)
+    safe_image_display("about.png", "About AI Attorney")
 
     st.header("Product Features")
     st.markdown("AI Attorney stands as a pioneering force in the legal technology landscape, harnessing the power of Artificial Intelligence (AI) and Natural Language Processing (NLP) techniques to revolutionize legal research. Here are the key features that set AI Attorney apart")
     col1, col2 = st.columns(2)
     with col2:
-        safe_image_load("images/img-1.png", "NLP Technology", debug_mode)
+        safe_image_display("img-1.png", "NLP Technology")
     with col1:
         st.subheader("Cutting-Edge NLP Technology")
         st.markdown(
@@ -73,7 +88,7 @@ def about_page():
         )
 
     with col1:    
-        st.image("images/img-2.png")
+        safe_image_display("img-2.png")
 
     with col2:
         st.subheader("Scenario-Based Search")
@@ -87,7 +102,7 @@ def about_page():
         )
 
     with col2:
-        st.image("images/img-3.png")
+        safe_image_display("img-3.png")
     with col1:
         st.subheader("PDF File Analysis")
         st.markdown(
@@ -100,7 +115,7 @@ def about_page():
         )
 
     with col1:
-        st.image("images/img-4.png")
+        safe_image_display("img-4.png")
     with col2:
         st.subheader("Keyword Extraction Expertise")
         st.markdown(
@@ -113,7 +128,7 @@ def about_page():
         )
 
     with col2:
-        st.image("images/img-3.png")
+        safe_image_display("img-3.png", "Adaptive Learning Features")
     with col1:
         st.subheader("Adaptive Learning")
         st.markdown(
@@ -126,7 +141,7 @@ def about_page():
         )
 
     with col1:
-        st.image("images/img-1.png")
+        safe_image_display("img-1.png", "Multilingual Translation")
     with col2:
         st.subheader("Multilingual Text Translation")
         st.markdown(
