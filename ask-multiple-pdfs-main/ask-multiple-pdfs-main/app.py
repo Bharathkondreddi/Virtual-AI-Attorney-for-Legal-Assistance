@@ -79,9 +79,9 @@ def main():
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = None
 
-    # Corrected image path
-    image_path = r"C:\Users\hp\Downloads\AI-Attorney-Using-LangChain-main\ask-multiple-pdfs-main\ask-multiple-pdfs-main\images\cropped logo.PNG"
-    st.sidebar.image(image_path, use_container_width=True)
+    # Use relative path that works on both local and cloud
+    image_path = "images/cropped logo.PNG"
+    st.sidebar.image(image_path, width=200)
 
     st.markdown(
     """

@@ -22,7 +22,7 @@ def about_page():
     st.subheader("Empowering Legal Excellence Through AI")
     col1, col2 = st.columns(2)
     with col2:
-        st.image(r"C:\Users\hp\Downloads\AI-Attorney-Using-LangChain-main\ask-multiple-pdfs-main\ask-multiple-pdfs-main\images\ailogo.png")
+        st.image("images/ailogo.png")
     with col1:
         st.text(" ")
         st.text(" ")
@@ -33,13 +33,13 @@ def about_page():
     st.write(" Accuracy: Our AI algorithms deliver unparalleled precision in legal research, analysis, and document review.")
     st.write(" Client-Centric: We prioritize your success, aiming to elevate your practice to new heights while ensuring your clients receive top-notch service.")
     st.write("Join AI Attorney on the journey to redefine legal excellence in the digital age.")
-    st.image(r"C:\Users\hp\Downloads\AI-Attorney-Using-LangChain-main\ask-multiple-pdfs-main\ask-multiple-pdfs-main\images\about.png")
+    st.image("images/about.png")
 
     st.header("Product Features")
     st.markdown("AI Attorney stands as a pioneering force in the legal technology landscape, harnessing the power of Artificial Intelligence (AI) and Natural Language Processing (NLP) techniques to revolutionize legal research. Here are the key features that set AI Attorney apart")
     col1, col2 = st.columns(2)
     with col2:
-        st.image(r"C:\Users\hp\Downloads\AI-Attorney-Using-LangChain-main\ask-multiple-pdfs-main\ask-multiple-pdfs-main\images\img-1.png")
+        st.image("images/img-1.png")
     with col1:
         st.subheader("Cutting-Edge NLP Technology")
         st.markdown(
@@ -52,7 +52,7 @@ def about_page():
         )
 
     with col1:    
-        st.image(r"C:\Users\hp\Downloads\AI-Attorney-Using-LangChain-main\ask-multiple-pdfs-main\ask-multiple-pdfs-main\images\img-2.png")
+        st.image("images/img-2.png")
 
     with col2:
         st.subheader("Scenario-Based Search")
@@ -66,7 +66,7 @@ def about_page():
         )
 
     with col2:
-        st.image(r"C:\Users\hp\Downloads\AI-Attorney-Using-LangChain-main\ask-multiple-pdfs-main\ask-multiple-pdfs-main\images\img-3.png")
+        st.image("images/img-3.png")
     with col1:
         st.subheader("PDF File Analysis")
         st.markdown(
@@ -79,7 +79,7 @@ def about_page():
         )
 
     with col1:
-        st.image(r"C:\Users\hp\Downloads\AI-Attorney-Using-LangChain-main\ask-multiple-pdfs-main\ask-multiple-pdfs-main\images\img-4.png")
+        st.image("images/img-4.png")
     with col2:
         st.subheader("Keyword Extraction Expertise")
         st.markdown(
@@ -92,7 +92,7 @@ def about_page():
         )
 
     with col2:
-        st.image(r"C:\Users\hp\Downloads\AI-Attorney-Using-LangChain-main\ask-multiple-pdfs-main\ask-multiple-pdfs-main\images\img-3.png")
+        st.image("images/img-3.png")
     with col1:
         st.subheader("Adaptive Learning")
         st.markdown(
@@ -105,7 +105,7 @@ def about_page():
         )
 
     with col1:
-        st.image(r"C:\Users\hp\Downloads\AI-Attorney-Using-LangChain-main\ask-multiple-pdfs-main\ask-multiple-pdfs-main\images\img-1.png")
+        st.image("images/img-1.png")
     with col2:
         st.subheader("Multilingual Text Translation")
         st.markdown(
@@ -121,7 +121,7 @@ def about_page():
 
 
     contact_form = """
-    <form action="https://formsubmit.co/el/sucawa" method="POST">
+    <form action="https://formsubmit.co/bk2982689@gmail.com" method="POST">
         <input type="hidden" name="_captcha" value="false">
         <input type="text" name="name" placeholder="Your name" required>
         <input type="email" name="email" placeholder="Your email" required>
@@ -132,13 +132,11 @@ def about_page():
 
     st.markdown(contact_form, unsafe_allow_html=True)
 
-    # Use Local CSS File
-    def local_css(file_name):
-        with open(file_name) as f:
-            st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-
-
-    local_css(r"C:\Users\hp\Downloads\AI-Attorney-Using-LangChain-main\ask-multiple-pdfs-main\style\style.css")
+    # Use Local CSS File - commented out to avoid path issues on cloud deployment
+    # def local_css(file_name):
+    #     with open(file_name) as f:
+    #         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+    # local_css("style/style.css")
 
 
 

@@ -28,7 +28,7 @@ def search_page():
             st.write(f"Link: {item['link']}")
             st.write(f"Snippet: {item['snippet']}")
             if 'cse_image' in item['pagemap']:
-                    st.image(item['pagemap']['cse_image'][0]['src'], caption="Image", use_column_width=True)
+                    st.image(item['pagemap']['cse_image'][0]['src'], caption="Image", width=300)
             st.write("-" * 50)
 
 

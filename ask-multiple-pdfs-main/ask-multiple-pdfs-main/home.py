@@ -7,7 +7,7 @@ def home_page():
     st.title("AI Attorney")
     st.markdown("Transforming the Legal Industry with AI")
     st.caption("AI Attorney is a cutting-edge legal technology firm revolutionizing the legal industry with advanced artificial intelligence solutions. We provide clients with efficient, accurate, and cost-effective legal services, powered by state-of-the-art AI algorithms and expert legal insights, ensuring seamless and precise legal support.")
-    st.image(r"C:\Users\hp\Downloads\AI-Attorney-Using-LangChain-main\ask-multiple-pdfs-main\ask-multiple-pdfs-main\images\AiLaw.jpeg")
+    st.image("images/AiLaw.jpeg")
 
     st.markdown(
     "AI Attorney is at the forefront of revolutionizing the legal industry by harnessing the power of artificial intelligence. "
@@ -32,7 +32,7 @@ def home_page():
     st.header("OBJECTIVE")
     col1, col2 = st.columns(2)
     with col1:
-        st.image(r"C:\Users\hp\Downloads\AI-Attorney-Using-LangChain-main\ask-multiple-pdfs-main\ask-multiple-pdfs-main\images\law 2.png")
+        st.image("images/law 2.png")
     with col2:
         st.write("""The objective of this presentation is to demonstrate the groundbreaking 
                 capabilities and significant contributions of Ai Attorney, an advanced AI powered system, in revolutionizing legal research. Through its utilization of 
@@ -96,22 +96,22 @@ def home_page():
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        st.image(r"C:\Users\hp\Downloads\AI-Attorney-Using-LangChain-main\ask-multiple-pdfs-main\ask-multiple-pdfs-main\images\RamaTulasi.jpg")
+        st.image("images/RamaTulasi.jpg")
         st.subheader("RAMA TULASI")
         st.write("`Assistant Professor at VIT-AP University`")
     
     with col2:
-        st.image(r"C:\Users\hp\Downloads\AI-Attorney-Using-LangChain-main\ask-multiple-pdfs-main\ask-multiple-pdfs-main\images\Bharath.jpg")
+        st.image("images/Bharath.jpg")
         st.subheader("BHARATH KUMAR")
         st.write("`CSE`")
 
     with col3:
-        st.image(r"C:\Users\hp\Downloads\AI-Attorney-Using-LangChain-main\ask-multiple-pdfs-main\ask-multiple-pdfs-main\images\shailendra.jpg")
+        st.image("images/shailendra.jpg")
         st.subheader("SHAILENDRA")
         st.write("`CSE`")
 
     with col1:
-        st.image(r"C:\Users\hp\Downloads\AI-Attorney-Using-LangChain-main\ask-multiple-pdfs-main\ask-multiple-pdfs-main\images\Sai Ram.jpg")
+        st.image("images/Sai Ram.jpg")
         st.subheader("SAI RAM")
         st.write("`CSE`")
 
