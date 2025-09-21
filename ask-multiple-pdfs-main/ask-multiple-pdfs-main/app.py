@@ -21,6 +21,15 @@ from ActsSearch import search_page
 from chat import chat_page
 import os
 
+def safe_image_load(image_path, fallback_text="🏛️ AI Attorney", **kwargs):
+    """Helper function to safely load images with fallback"""
+    try:
+        st.image(image_path, **kwargs)
+        return True
+    except Exception as e:
+        st.info(fallback_text)
+        return False
+
 def get_pdf_text(pdf_docs):
     text = ""
     for pdf in pdf_docs:
@@ -79,9 +88,9 @@ def main():
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = None
 
-    # Use relative path that works on both local and cloud
-    image_path = "images/cropped logo.PNG"
-    st.sidebar.image(image_path, width=200)
+    # Try to load sidebar logo with error handling
+    with st.sidebar:
+        safe_image_load("images/cropped logo.PNG", "🏛️ AI Attorney", width=200)
 
     st.markdown(
     """

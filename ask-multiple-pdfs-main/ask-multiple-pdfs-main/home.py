@@ -7,7 +7,12 @@ def home_page():
     st.title("AI Attorney")
     st.markdown("Transforming the Legal Industry with AI")
     st.caption("AI Attorney is a cutting-edge legal technology firm revolutionizing the legal industry with advanced artificial intelligence solutions. We provide clients with efficient, accurate, and cost-effective legal services, powered by state-of-the-art AI algorithms and expert legal insights, ensuring seamless and precise legal support.")
-    st.image("images/AiLaw.jpeg")
+    
+    # Try to load main image with error handling
+    try:
+        st.image("images/AiLaw.jpeg")
+    except Exception as e:
+        st.info("🏛️ AI Attorney - Revolutionizing Legal Services with AI")
 
     st.markdown(
     "AI Attorney is at the forefront of revolutionizing the legal industry by harnessing the power of artificial intelligence. "
