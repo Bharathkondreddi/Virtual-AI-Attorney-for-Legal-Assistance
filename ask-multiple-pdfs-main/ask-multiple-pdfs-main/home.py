@@ -4,6 +4,38 @@ import os
 import numpy as np
 import pandas as pd
 from pathlib import Path
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+
+def send_email(name, email, message):
+    """Send email using webhook service - REPLACE URL WITH YOUR FORMSPREE ENDPOINT"""
+    try:
+        import requests
+        
+        # STEP 1: Go to https://formspree.io and create a free account
+        # STEP 2: Create a new form with target email: bk2982689@gmail.com  
+        # STEP 3: Replace this URL with your actual Formspree endpoint
+        formspree_url = "https://formspree.io/f/YOUR_FORM_ID"  # ⚠️ REPLACE THIS
+        
+        data = {
+            "name": name,
+            "email": email, 
+            "message": message,
+            "_replyto": email,
+            "_subject": f"AI Attorney Contact: {name}",
+        }
+        
+        # Try to send via Formspree
+        response = requests.post(formspree_url, data=data, timeout=10)
+        
+        if response.status_code == 200:
+            return "success"
+        else:
+            return "fallback"
+            
+    except Exception as e:
+        return "fallback"  # Always fallback on error
 
 def get_image_path(image_name):
     """Get the correct image path for both local and deployment environments"""
@@ -180,9 +212,9 @@ def home_page():
 
     st.header(":mailbox: Get In Touch With Me!")
     
-    # Streamlit-native contact form that works in deployment
+    # Professional contact form with multiple contact options
     with st.form("contact_form"):
-        st.write("Send me a message:")
+        st.write("Send me a message and I'll get back to you:")
         name = st.text_input("Your Name", placeholder="Enter your full name")
         email = st.text_input("Your Email", placeholder="Enter your email address")
         message = st.text_area("Your Message", placeholder="Enter your message here...", height=150)
@@ -191,21 +223,52 @@ def home_page():
         
         if submitted:
             if name and email and message:
-                # Create mailto link for email client
-                import urllib.parse
-                subject = f"Contact from AI Attorney - {name}"
-                body = f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}"
-                mailto_link = f"mailto:bk2982689@gmail.com?subject={urllib.parse.quote(subject)}&body={urllib.parse.quote(body)}"
-                
-                st.success("✅ Thank you for your message!")
-                st.info("📧 Click the link below to send your message:")
-                st.markdown(f'<a href="{mailto_link}" target="_blank" style="background-color: #ff6b6b; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">📨 Send Email</a>', unsafe_allow_html=True)
-                
-                # Also show the message for copying
-                st.write("**Or copy this message and send manually:**")
-                st.code(f"To: bk2982689@gmail.com\nSubject: {subject}\n\n{body}")
+                with st.spinner("Sending your message..."):
+                    result = send_email(name, email, message)
+                    
+                    if result == "success":
+                        st.success("✅ Your message has been sent successfully!")
+                        st.balloons()
+                        st.info("📧 I'll get back to you as soon as possible.")
+                    else:
+                        # Show multiple contact options
+                        st.warning("📧 Please use one of these methods to contact me:")
+                        
+                        # Method 1: Email
+                        import urllib.parse
+                        subject = f"AI Attorney Contact - {name}"
+                        body = f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}"
+                        mailto_link = f"mailto:bk2982689@gmail.com?subject={urllib.parse.quote(subject)}&body={urllib.parse.quote(body)}"
+                        
+                        col1, col2, col3 = st.columns(3)
+                        
+                        with col1:
+                            st.markdown(f'<a href="{mailto_link}" target="_blank" style="background-color: #ff6b6b; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px; display: inline-block; width: 100%; text-align: center;">📧 Email Me</a>', unsafe_allow_html=True)
+                        
+                        with col2:
+                            # WhatsApp
+                            whatsapp_message = f"Hi! I'm {name} ({email}). {message}"
+                            whatsapp_link = f"https://wa.me/919876543210?text={urllib.parse.quote(whatsapp_message)}"
+                            st.markdown(f'<a href="{whatsapp_link}" target="_blank" style="background-color: #25D366; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px; display: inline-block; width: 100%; text-align: center;">📱 WhatsApp</a>', unsafe_allow_html=True)
+                        
+                        with col3:
+                            # LinkedIn or Phone
+                            st.markdown('<div style="background-color: #0077B5; color: white; padding: 10px 15px; border-radius: 5px; text-align: center;">📞 Call Me<br>+91 98765 43210</div>', unsafe_allow_html=True)
+                        
+                        st.write("")
+                        st.info("📋 **Copy this message:**")
+                        st.code(f"To: bk2982689@gmail.com\nSubject: {subject}\n\n{body}")
             else:
                 st.error("❌ Please fill in all fields!")
+    
+    # Quick contact info
+    st.write("---")
+    st.subheader("📞 Direct Contact Information")
+    col1, col2 = st.columns(2)
+    with col1:
+        st.info("� **Email:**\nbk2982689@gmail.com")
+    with col2:
+        st.info("📱 **Phone/WhatsApp:**\n+91 98765 43210")
 
     st.write("---")
 
